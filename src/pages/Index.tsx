@@ -41,7 +41,7 @@ export default function Dashboard() {
       }}>
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-0" />
 
-        <div className=" z-10 w-full md:max-w-[430px] md:my-10 md:rounded-[36px] bg-background md:shadow-2xl overflow-hidden border border-border">
+        <div className=" z-10 w-full md:max-w-[430px] md:my-10 md:rounded-[36px] bg-background md:shadow-2xl overflow-hidden border md:border-border">
 
           <main className=" text-foreground flex justify-center px-4">
 
@@ -199,23 +199,14 @@ export default function Dashboard() {
                     Contato
                   </a>
                 </div>
-
                 <div className="opacity-70">
                   © {new Date().getFullYear()} Garimpei. Todos os direitos reservados.
                 </div>
-
               </footer>
-
             </div>
-
-
           </main>
-
-
         </div>
-
       </div>
-
     </>
   );
 }
