@@ -25,8 +25,8 @@ const GROUPS = {
 const trackClick = (label: string) => {
   if (window.gtag) {
     window.gtag("event", "link_click", {
-      event_category: "links",
-      event_label: label,
+      link_name: label,
+      link_group: "garimpei_grupos"
     });
   }
 };
