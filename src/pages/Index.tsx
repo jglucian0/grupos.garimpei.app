@@ -23,12 +23,14 @@ const GROUPS = {
 };
 
 const trackClick = (label: string) => {
-  if (window.gtag) {
-    window.gtag("event", "link_click", {
-      link_name: label,
-      link_group: "garimpei_grupos"
-    });
-  }
+  // @ts-ignore
+  window.dataLayer = window.dataLayer || [];
+  // @ts-ignore
+  window.dataLayer.push({
+    event: "click_linktree",
+    botao_clicado: label,
+    origem: "linktree"
+  });
 };
 
 export default function Dashboard() {
@@ -167,7 +169,7 @@ export default function Dashboard() {
                 <div className="flex justify-center gap-4 mb-2">
                   <a
                     href="https://instagram.com/garimpei.ai"
-                    onClick={() => trackClick("instagram")}
+                    onClick={() => trackClick("instagram_footer")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-primary transition"
@@ -179,7 +181,7 @@ export default function Dashboard() {
 
                   <a
                     href="https://tiktok.com/@garimpei.ai"
-                    onClick={() => trackClick("tiktok")}
+                    onClick={() => trackClick("tiktok_footer")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-primary transition"
@@ -191,7 +193,7 @@ export default function Dashboard() {
 
                   <a
                     href="https://api.whatsapp.com/send?phone=5543996098333"
-                    onClick={() => trackClick("whatsapp")}
+                    onClick={() => trackClick("whatsapp_footer")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-primary transition"

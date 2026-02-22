@@ -2,23 +2,41 @@ import logoModa from "@/assets/moda_garimpei.png";
 import logoEletronicos from "@/assets/eletronicos_garimpei.png";
 import logoAcademia from "@/assets/academia_garimpei.png";
 import banner from "@/assets/banner_garimpei.png";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const GROUP_URL = "https://chat.whatsapp.com/DY0ZZvUQao600pRH8SeiFF";
+const GROUP_URL = "https://chat.whatsapp.com/KP5RTRGkuak5HrwtXqVbU5";
 
 const trackClick = () => {
-  if (window.gtag) {
-    window.gtag("event", "cta_click", {
-      link_name: "cta_ultra_premium",
-      link_group: "garimpei_premium"
-    });
-  }
+  // @ts-ignore
+  window.dataLayer = window.dataLayer || [];
+  // @ts-ignore
+  window.dataLayer.push({
+    event: "click_whatsapp_nicho",
+    nicho: "eletronicos",
+    origem: "landing_page"
+  });
 };
 
 export default function PremiumLanding() {
+  const frases = [
+    "Vagas limitadas no grupo. |Entre antes que lote!",
+    "Pare de jogar seu dinheiro fora. |Junte-se a nós!",
+    "As ofertas esgotam em minutos.|Não fique de fora!",
+    "Grupo silencioso. Apenas ofertas |reais e verificadas.",
+    "Milhares de pessoas economizando |todos os dias."
+  ];
+
+  const [fraseAtual, setFraseAtual] = useState(frases[0]);
+
+  useEffect(() => {
+    const fraseSorteada = frases[Math.floor(Math.random() * frases.length)];
+    setFraseAtual(fraseSorteada);
+  }, []);
+
   return (
     <div
-      className="relative min-h-screen flex items-center justify-center px-6"
+      className="relative h-[100dvh] flex items-center justify-center px-6"
       style={{
         backgroundImage: `url(${banner})`,
         backgroundSize: "cover",
@@ -26,18 +44,18 @@ export default function PremiumLanding() {
       }}
     >
       {/* Gradient Overlay Premium */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/90 backdrop-blur-xl" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/80 to-black/90 backdrop-blur-xl" />
 
       <div className="relative z-10 max-w-2xl text-center">
 
         {/* Logo */}
         <motion.img
-          src={logoAcademia}
+          src={logoEletronicos}
           alt="Garimpei"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="w-28 h-28 mx-auto mb-10 rounded-full shadow-[0_0_40px_rgba(255,215,0,0.3)]"
+          className="w-28 h-28 mx-auto mb-10 rounded-full shadow-[0_0_40px_rgba(37,150,190,0.3)]"
         />
 
         {/* Headline forte */}
@@ -48,9 +66,9 @@ export default function PremiumLanding() {
           className="text-4xl md:text-5xl font-extrabold text-white leading-tight"
         >
           <div className="leading-tight">
-            <span className="bg-gradient-to-r from-[#ffaa33] to-[#ff8d00] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#0e5dac] to-[#0e5dac] bg-clip-text text-transparent">
               Garimpei!
-            </span> <br />Academia e Performance
+            </span> <br /><span className="text-[clamp(29px,5vw,48px)]">Eletrônicos e Tecnologia</span>
           </div>
         </motion.h1>
 
@@ -73,9 +91,9 @@ export default function PremiumLanding() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mt-10 p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl"
+          className="mt-6 p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl"
         >
-          <p className="text-sm text-gray-400 mb-6">
+          <p className="text-sm text-gray-400 mb-4">
             Acesso 100% gratuito
           </p>
 
@@ -91,11 +109,24 @@ export default function PremiumLanding() {
             text-black shadow-xl hover:shadow-green-500/10
             transition-all duration-50"
           >
-            ⛏️ ENTRAR NO GRUPO AGORA
+            <span className="ml-3 mr-3 whitespace-nowrap" >⛏️ ENTRAR NO GRUPO AGORA</span>
           </motion.a>
 
-          <p className="text-xs text-gray-500 mt-4">
-            + Milhares de pessoas recebendo oportunidades todos os dias
+          <p className="text-sm text-gray-500 mt-4">
+            {fraseAtual.split('|').map((linha, index, array) => (
+              <span key={index}>
+                {linha}
+                {index < array.length - 1 && (
+                  <>
+                    {/* Quebra a linha no celular (block) e esconde a quebra a partir de telas médias (md:hidden) */}
+                    <br className="block md:hidden" />
+
+                    {/* Adiciona apenas um espaço em branco no desktop (inline) e esconde no celular (hidden) */}
+                    <span className="hidden md:inline"> </span>
+                  </>
+                )}
+              </span>
+            ))}
           </p>
         </motion.div>
 
