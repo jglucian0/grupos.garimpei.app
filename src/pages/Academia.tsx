@@ -5,7 +5,9 @@ import banner from "@/assets/banner_garimpei.png";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
-const GROUP_URL = "https://chat.whatsapp.com/DY0ZZvUQao600pRH8SeiFF";
+const GROUP_CODE = "DY0ZZvUQao600pRH8SeiFF";
+const WEB_URL = `https://chat.whatsapp.com/${GROUP_CODE}`;
+const APP_URL = `whatsapp://chat?code=${GROUP_CODE}`;
 
 const trackClick = () => {
   // @ts-ignore
@@ -28,11 +30,66 @@ export default function PremiumLanding() {
   ];
 
   const [fraseAtual, setFraseAtual] = useState(frases[0]);
+  const [countdown, setCountdown] = useState(5);
+  const [startCountdown, setStartCountdown] = useState(false);
+
+  const redirectToWhatsApp = () => {
+    trackClick();
+
+    window.location.href = APP_URL;
+
+    setTimeout(() => {
+      window.location.href = WEB_URL;
+    }, 800);
+  };
 
   useEffect(() => {
     const fraseSorteada = frases[Math.floor(Math.random() * frases.length)];
     setFraseAtual(fraseSorteada);
+
+    trackClick();
+
+    let appOpened = false;
+
+    setTimeout(() => {
+      window.location.href = APP_URL;
+    }, 30);
+
+    const handleBlur = () => {
+      appOpened = true;
+    };
+
+    const handleFocus = () => {
+      if (appOpened) {
+        setStartCountdown(true);
+      }
+    };
+
+    window.addEventListener("blur", handleBlur);
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      window.removeEventListener("blur", handleBlur);
+      window.removeEventListener("focus", handleFocus);
+    };
   }, []);
+
+  useEffect(() => {
+    if (!startCountdown) return;
+
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          window.location.href = WEB_URL;
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [startCountdown]);
 
   return (
     <div
@@ -63,7 +120,7 @@ export default function PremiumLanding() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="text-4xl md:text-5xl font-extrabold text-white leading-tight"
+          className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-2"
         >
           <div className="leading-tight">
             <span className="bg-gradient-to-r from-[#ffaa33] to-[#ff8d00] bg-clip-text text-transparent">
@@ -71,6 +128,21 @@ export default function PremiumLanding() {
             </span> <br /><span className="text-[clamp(29px,5vw,48px)]">Academia e Performance</span>
           </div>
         </motion.h1>
+        {startCountdown && (
+          <motion.h2
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-xl md:text-xl font-extrabold text-white leading-tight "
+          >
+            <div className="leading-tight">
+              <span className="bg-gradient-to-r from-[#ffaa33] to-[#ff8d00] bg-clip-text text-transparent">
+                Redirecionando em <span className="text-white">{countdown}s</span>
+              </span>
+
+            </div>
+          </motion.h2>
+        )}
 
         {/* Subheadline sofisticada */}
         {/* <motion.p
@@ -91,17 +163,14 @@ export default function PremiumLanding() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mt-10 p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl"
+          className="mt-5 p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl"
         >
           <p className="text-sm text-gray-400 mb-6">
             Acesso 100% gratuito
           </p>
 
-          <motion.a
-            href={GROUP_URL}
-            onClick={trackClick}
-            target="_blank"
-            rel="noopener noreferrer"
+          <motion.button
+            onClick={redirectToWhatsApp}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             className="block w-full rounded-2xl py-5 text-lg font-semibold
@@ -110,7 +179,7 @@ export default function PremiumLanding() {
             transition-all duration-50"
           >
             <span className="ml-3 mr-3 whitespace-nowrap" >⛏️ ENTRAR NO GRUPO AGORA</span>
-          </motion.a>
+          </motion.button>
 
           <p className="text-sm text-gray-500 mt-4">
             {fraseAtual.split('|').map((linha, index, array) => (
