@@ -49,29 +49,23 @@ export default function PremiumLanding() {
 
     trackClick();
 
-    let appOpened = false;
+    const startTime = Date.now();
 
-    setTimeout(() => {
-      window.location.href = APP_URL;
-    }, 30);
+    // 🔥 tentativa imediata
+    window.location.href = APP_URL;
 
-    const handleBlur = () => {
-      appOpened = true;
-    };
+    // 🔥 fallback inteligente por tempo (funciona mobile + desktop)
+    const fallbackTimer = setTimeout(() => {
+      const elapsed = Date.now() - startTime;
 
-    const handleFocus = () => {
-      if (appOpened) {
+      // Se ainda estamos na página depois de ~1200ms,
+      // significa que o app não abriu
+      if (elapsed < 2000) {
         setStartCountdown(true);
       }
-    };
+    }, 1200);
 
-    window.addEventListener("blur", handleBlur);
-    window.addEventListener("focus", handleFocus);
-
-    return () => {
-      window.removeEventListener("blur", handleBlur);
-      window.removeEventListener("focus", handleFocus);
-    };
+    return () => clearTimeout(fallbackTimer);
   }, []);
 
   useEffect(() => {
