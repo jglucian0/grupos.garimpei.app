@@ -10,7 +10,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 const GROUPS = {
   academia: {
     title: "Garimpei! – Academia e Performance",
-    url: "https://chat.whatsapp.com/DY0ZZvUQao600pRH8SeiFF",
+    url: "https://chat.whatsapp.com/Lvr7N3daXAIHfoPbWhfjJ1",
   },
   eletronicos: {
     title: "Garimpei! – Eletrônicos",

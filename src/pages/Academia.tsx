@@ -5,7 +5,7 @@ import banner from "@/assets/banner_garimpei.png";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
-const GROUP_CODE = "DY0ZZvUQao600pRH8SeiFF";
+const GROUP_CODE = "Lvr7N3daXAIHfoPbWhfjJ1";
 const WEB_URL = `https://chat.whatsapp.com/${GROUP_CODE}`;
 const APP_URL = `whatsapp://chat?code=${GROUP_CODE}`;
 
